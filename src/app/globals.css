@@ -19,3 +19,15 @@ body {
   background: var(--background);
   font-synthesis: none;
 }
+
+@layer components {
+  .scrollbar-color {
+    scrollbar-color: var(--tw-scrollbar-thumb, rgba(156, 163, 175, 0.5)) var(--tw-scrollbar-track, rgba(229, 231, 235, 0.5));
+  }
+  .scrollbar-thumb-gray {
+    --tw-scrollbar-thumb: gray;
+  }
+  .scrollbar-track-transparent {
+    --tw-scrollbar-track: transparent;
+  }
+}
