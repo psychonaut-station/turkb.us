@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import localFont from "next/font/local";
 import "./globals.css";
 
-import { NavLinks } from "@/app/ui/nav-links";
+import { NavLinks } from "@/ui/nav-links";
 
 const geistSans = localFont({
   src: "./fonts/GeistVF.woff",
@@ -30,7 +30,7 @@ export default function RootLayout({
           <NavLinks />
           {children}
         </div>
-        <div className="w-screen h-screen top-0 left-0 fixed bg-wallpaper bg-cover -z-50 pointer-events-none"></div>
+        <div className="w-screen h-screen top-0 left-0 fixed bg-[url('/wallpaper.png')] bg-cover -z-50 pointer-events-none"></div>
       </body>
     </html>
   );

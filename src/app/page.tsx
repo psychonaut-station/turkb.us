@@ -1,4 +1,4 @@
-import { ServerList } from "@/app/ui/server-list";
+import { ServerList } from "@/ui/server-list";
 
 export default async function Home() {
   const server = await fetch('https://api.turkb.us/v2/server', {

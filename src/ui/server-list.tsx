@@ -1,35 +1,37 @@
 'use client'
 
-import useSWR from 'swr';
+import useServer, { Status } from '@/hooks/useServer';
+import { useEffect, useRef } from 'react';
 
-import fetcher from '@/app/utils/fetcher';
-
-type ServerStatus = {
-	connection_info: string;
-	gamestate: number;
-	map: string;
-	name: string;
-	players: number;
-	round_duration: number;
-	round_id: number;
-	security_level: string;
-	server_status: number;
-}
-
-export function ServerList({ fallback }: { fallback: ServerStatus[] }) {
-	const { error, data: servers } = useSWR<ServerStatus[]>('/api/server', fetcher, {
-		refreshInterval: 30_000,
-		fallbackData: fallback,
-	});
-
-	if (error) return 'An error has occurred: ' + error.message;
+export function ServerList({ fallback }: { fallback: Status[] }) {
+	const { error, servers } = useServer(fallback);
 
 	return (
-		servers!.map((status) => <Server key={status.connection_info} status={status} />)
+		<>
+			{servers.map((status) => <Server key={status.connection_info} status={status} />)}
+			{!!error && <div className="text-red-500">An error has occurred: {error.message}</div>}
+		</>
 	)
 }
 
-function Server({ status }: { status: ServerStatus }) {
+function Server({ status }: { status: Status }) {
+	const roundDurationRef = useRef<HTMLSpanElement>(null);
+
+	useEffect(() => {
+		let roundDuration = status.round_duration;
+
+		const interval = setInterval(() => {
+			roundDuration += 1;
+			if (roundDurationRef.current) {
+				roundDurationRef.current.textContent = readableRoundDuration(roundDuration);
+			}
+		}, 1_000);
+
+		return () => {
+			clearInterval(interval);
+		}
+	}, [status.round_duration]);
+
   return (
     <div className="w-full flex flex-col p-4 bg-white shadow-slate-200 shadow-glow rounded-xl text-sm font-light text-gray-500 [&>span>span]:text-black">
       <div className="flex justify-between uppercase">
@@ -39,14 +41,14 @@ function Server({ status }: { status: ServerStatus }) {
       <span>Map: <span>{status.map}</span></span>
       <span>Oyuncu sayısı: <span>{status.players}</span></span>
       <span>Round ID: <span>{status.round_id}</span></span>
-      <span>Round durumu: <span>{friendlyGamestate(status.gamestate)}</span></span>
-      <span>Round süresi: <span>{friendlyRoundDuration(status.round_duration)}</span></span>
+      <span>Round durumu: <span>{readableGamestate(status.gamestate)}</span></span>
+      <span>Round süresi: <span ref={roundDurationRef}>{readableRoundDuration(status.round_duration)}</span></span>
 			<a className="bg-green-400 hover:bg-green-500 rounded-xl text-white w-min px-2 py-1 mt-2 transition-colors" href={`byond://${status.connection_info}`}>Bağlan</a>
     </div>
   )
 }
 
-function friendlyGamestate(gamestate: number) {
+function readableGamestate(gamestate: number) {
 	switch (gamestate) {
 		case 0:
 			return "Lobi";
@@ -63,7 +65,7 @@ function friendlyGamestate(gamestate: number) {
 	}
 }
 
-function friendlyRoundDuration(seconds: number) {
+function readableRoundDuration(seconds: number) {
 	const minutes = Math.floor(seconds / 60);
 	const hours = Math.floor(minutes / 60);
 

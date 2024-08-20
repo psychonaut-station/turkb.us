@@ -5,6 +5,7 @@ const config: Config = {
 		'./src/pages/**/*.{js,ts,jsx,tsx,mdx}',
 		'./src/components/**/*.{js,ts,jsx,tsx,mdx}',
 		'./src/app/**/*.{js,ts,jsx,tsx,mdx}',
+		'./src/ui/**/*.{js,ts,jsx,tsx,mdx}',
 	],
 	theme: {
 		extend: {
@@ -15,9 +16,6 @@ const config: Config = {
 			fontFamily: {
 				sans: ['var(--font-geist-sans)'],
 				mono: ['var(--font-geist-mono)'],
-			},
-			backgroundImage: {
-				wallpaper: "url('/wallpaper.png')",
 			},
 			boxShadow: {
 				glow: '0 0 10px var(--tw-shadow-color)',
