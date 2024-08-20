@@ -40,14 +40,18 @@ function Server({ status }: { status: ServerStatus }) {
 		<div className="w-full flex flex-col p-4 bg-white shadow-slate-200 shadow-glow rounded-xl text-sm font-light text-gray-500 [&>span>span]:text-black">
 			<div className="flex justify-between uppercase">
 				<span className="text-xl font-extrabold">{status.name}</span>
-				<span className="bg-lime-400 rounded-xl text-white self-center px-2 leading-7">{status.server_status ? 'aktif' : 'kapalı'}</span>
+				<span className={`${status.server_status ? 'bg-lime-400' : 'bg-red-400'} rounded-xl text-white self-center px-2 leading-7`}>{status.server_status ? 'aktif' : 'kapalı'}</span>
 			</div>
-			<span>Map: <span>{status.map}</span></span>
-			<span>Oyuncu sayısı: <span>{status.players}</span></span>
-			<span>Round ID: <span>{status.round_id}</span></span>
-			<span>Round durumu: <span>{readableGamestate(status.gamestate)}</span></span>
-			<span>Round süresi: <span ref={roundDurationRef}>{readableRoundDuration(status.round_duration)}</span></span>
-			<a className="bg-green-400 hover:bg-green-500 rounded-xl text-white w-min px-2 py-1 mt-2 transition-colors" href={`byond://${status.connection_info}`}>Bağlan</a>
+			{!!status.server_status && (
+				<>
+					<span>Map: <span>{status.map}</span></span>
+					<span>Oyuncu sayısı: <span>{status.players}</span></span>
+					<span>Round ID: <span>{status.round_id}</span></span>
+					<span>Round durumu: <span>{readableGamestate(status.gamestate)}</span></span>
+					<span>Round süresi: <span ref={roundDurationRef}>{readableRoundDuration(status.round_duration)}</span></span>
+					<a className="bg-green-400 hover:bg-green-500 rounded-xl text-white w-min px-2 py-1 mt-2 transition-colors" href={`byond://${status.connection_info}`}>Bağlan</a>
+				</>
+			)}
 		</div>
 	);
 }
