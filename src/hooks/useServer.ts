@@ -14,17 +14,12 @@ export default function useServer():
 	| { servers: undefined; isLoading: false; error: any };
 
 export default function useServer(initial?: ServerStatus[]) {
-	const { data, error, isLoading } = useSWR<ServerStatus[]>(
-		'/api/server',
-		fetcher,
-		{
-			refreshInterval: 30_000,
-			refreshWhenHidden: true,
-			revalidateOnFocus: false,
-			revalidateIfStale: false,
-			fallbackData: initial,
-		}
-	);
+	const { data, error, isLoading } = useSWR('/api/server', fetcher, {
+		refreshInterval: 30_000,
+		refreshWhenHidden: true,
+		revalidateOnFocus: false,
+		fallbackData: initial,
+	});
 
 	return {
 		servers: data,
