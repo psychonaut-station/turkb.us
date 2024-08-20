@@ -1,4 +1,4 @@
-'use client'
+'use client';
 
 import useServer, { Status } from '@/hooks/useServer';
 import { useEffect, useRef } from 'react';
@@ -8,10 +8,12 @@ export function ServerList({ fallback }: { fallback: Status[] }) {
 
 	return (
 		<>
-			{servers.map((status) => <Server key={status.connection_info} status={status} />)}
+			{servers.map((status) => (
+				<Server key={status.connection_info} status={status} />
+			))}
 			{!!error && <div className="text-red-500">An error has occurred: {error.message}</div>}
 		</>
-	)
+	);
 }
 
 function Server({ status }: { status: Status }) {
@@ -29,39 +31,39 @@ function Server({ status }: { status: Status }) {
 
 		return () => {
 			clearInterval(interval);
-		}
+		};
 	}, [status.round_duration]);
 
-  return (
-    <div className="w-full flex flex-col p-4 bg-white shadow-slate-200 shadow-glow rounded-xl text-sm font-light text-gray-500 [&>span>span]:text-black">
-      <div className="flex justify-between uppercase">
-        <span className="text-xl font-extrabold">{status.name}</span>
-        <span className="bg-lime-400 rounded-xl text-white self-center px-2 leading-7">{status.server_status ? 'aktif' : 'kapalı'}</span>
-      </div>
-      <span>Map: <span>{status.map}</span></span>
-      <span>Oyuncu sayısı: <span>{status.players}</span></span>
-      <span>Round ID: <span>{status.round_id}</span></span>
-      <span>Round durumu: <span>{readableGamestate(status.gamestate)}</span></span>
-      <span>Round süresi: <span ref={roundDurationRef}>{readableRoundDuration(status.round_duration)}</span></span>
+	return (
+		<div className="w-full flex flex-col p-4 bg-white shadow-slate-200 shadow-glow rounded-xl text-sm font-light text-gray-500 [&>span>span]:text-black">
+			<div className="flex justify-between uppercase">
+				<span className="text-xl font-extrabold">{status.name}</span>
+				<span className="bg-lime-400 rounded-xl text-white self-center px-2 leading-7">{status.server_status ? 'aktif' : 'kapalı'}</span>
+			</div>
+			<span>Map: <span>{status.map}</span></span>
+			<span>Oyuncu sayısı: <span>{status.players}</span></span>
+			<span>Round ID: <span>{status.round_id}</span></span>
+			<span>Round durumu: <span>{readableGamestate(status.gamestate)}</span></span>
+			<span>Round süresi: <span ref={roundDurationRef}>{readableRoundDuration(status.round_duration)}</span></span>
 			<a className="bg-green-400 hover:bg-green-500 rounded-xl text-white w-min px-2 py-1 mt-2 transition-colors" href={`byond://${status.connection_info}`}>Bağlan</a>
-    </div>
-  )
+		</div>
+	);
 }
 
 function readableGamestate(gamestate: number) {
 	switch (gamestate) {
 		case 0:
-			return "Lobi";
+			return 'Lobi';
 		case 1:
-			return "Lobi";
+			return 'Lobi';
 		case 2:
-			return "Başlıyor";
+			return 'Başlıyor';
 		case 3:
-			return "Devam ediyor";
+			return 'Devam ediyor';
 		case 4:
-			return "Bitti";
+			return 'Bitti';
 		default:
-			return "";
+			return '';
 	}
 }
 
