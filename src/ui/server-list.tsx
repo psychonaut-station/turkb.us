@@ -1,9 +1,11 @@
 'use client';
 
-import useServer, { Status } from '@/hooks/useServer';
 import { useEffect, useRef } from 'react';
 
-export function ServerList({ fallback }: { fallback: Status[] }) {
+import useServer from '@/hooks/useServer';
+import type { ServerStatus } from '@/services/server';
+
+export function ServerList({ fallback }: { fallback: ServerStatus[] }) {
 	const { error, servers } = useServer(fallback);
 
 	return (
@@ -16,7 +18,7 @@ export function ServerList({ fallback }: { fallback: Status[] }) {
 	);
 }
 
-function Server({ status }: { status: Status }) {
+function Server({ status }: { status: ServerStatus }) {
 	const roundDurationRef = useRef<HTMLSpanElement>(null);
 
 	useEffect(() => {

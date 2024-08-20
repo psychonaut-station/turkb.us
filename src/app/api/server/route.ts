@@ -1,7 +1,5 @@
-export async function GET() {
-	const data = await fetch('https://api.turkb.us/v2/server', {
-		next: { revalidate: 30 },
-	}).then((res) => res.json());
+import { getServer } from '@/services/server';
 
-	return Response.json(data);
+export async function GET() {
+	return Response.json(await getServer());
 }
