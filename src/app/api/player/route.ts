@@ -1,8 +1,6 @@
 import type { NextRequest } from "next/server";
 
-import headers from "@/utils/headers";
-
-const ENDPOINT = process.env.API_URL + '/autocomplete/ckey?ckey=';
+import { getPlayer } from "@/services/player";
 
 export const revalidate = 3_600; // 1 hour
 
@@ -14,8 +12,14 @@ export async function GET(request: NextRequest) {
 	}
 
 	try {
-		return await fetch(ENDPOINT + ckey, { headers });
-	} catch {
-		return new Response('Internal Server Error', { status: 500 });
+		const player = await getPlayer(ckey);
+
+		if (!player) {
+			return new Response('Player not found', { status: 404 });
+		}
+
+		return Response.json(player);
+	} catch (e: any) {
+		return new Response(e.message, { status: 500 });
 	}
 }

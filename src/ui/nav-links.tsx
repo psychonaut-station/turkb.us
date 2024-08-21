@@ -4,6 +4,8 @@ import Image from 'next/image';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 
+import Button from '@/components/button';
+
 const NAVIGATION = [
 	{ href: '/', label: 'Sunucu Durumu' },
 	{ href: '/players', label: 'Oyuncular', like: true },
@@ -16,17 +18,17 @@ export function NavLinks() {
 	const pathname = usePathname();
 
 	return (
-		<div className="flex flex-col items-center m-6 gap-6 text-white">
+		<div className="flex flex-col items-center p-6 text-white">
 			<div className="flex flex-col items-center">
 				<Image src="/logo.png" alt="Psychonaut Station" width={128} height={128} priority />
 				<span className="text-5xl text-center font-mono">Psychonaut Station</span>
 			</div>
-			<div className="flex items-center justify-center flex-wrap gap-4">
+			<div id="navigation" className="flex items-center justify-center flex-wrap gap-4 pt-6 mt-[1px]">
 				{NAVIGATION.map(({ href, label, prefetch, blank, like }) => (
 					<Link key={href} href={href} prefetch={!(prefetch === false)} {...(blank && { target: '_blank', rel: 'noreferrer external' })}>
-						<div className={`${(like ? pathname.startsWith(href) : pathname === href) ? 'bg-opacity-15 hover:bg-opacity-20' : 'bg-opacity-5 hover:bg-opacity-10'} bg-white border border-opacity-10 border-white px-3 py-2 rounded-[.25rem] transition-colors`}>
+						<Button active={like ? pathname.startsWith(href) : pathname === href}>
 							{label}
-						</div>
+						</Button>
 					</Link>
 				))}
 			</div>

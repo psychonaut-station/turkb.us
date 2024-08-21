@@ -1,5 +1,14 @@
-export default function Player() {
+import { getPlayer, type Player } from '@/services/player';
+import PlayerView from '@/ui/player';
+
+export default async function Ckey({ params }: { params: { ckey: string } }) {
+	let player: Player | undefined;
+
+	try {
+		player = await getPlayer(params.ckey);
+	} catch {}
+
 	return (
-		<span className="text-center">Yakında gelecek!</span>
+		<PlayerView player={player} />
 	);
 }

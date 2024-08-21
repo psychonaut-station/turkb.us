@@ -6,15 +6,16 @@ import Link from 'next/link';
 import { useEffect, useRef, useState } from 'react';
 import useSWRImmutable from 'swr/immutable';
 
+import Button from '@/components/button';
 import fetcher from '@/utils/fetcher';
 
-export default function Player() {
+export default function Players() {
 	const inputRef = useRef<HTMLInputElement>(null);
 
 	const [input, setInput] = useState('');
 	const [lazyAutocomplete, setLazyAutocomplete] = useState<string[]>([]);
 
-	const { data: autocomplete, isLoading } = useSWRImmutable<string[]>('/api/autocomplete/ckey?ckey=' + input, fetcher, {
+	const { data: autocomplete, error, isLoading } = useSWRImmutable<string[]>('/api/autocomplete/ckey?ckey=' + input, fetcher, {
 		isPaused: () => inputRef.current ? inputRef.current.value.length === 0 : true,
 	});
 
@@ -58,12 +59,11 @@ export default function Player() {
 			<div className="flex flex-wrap gap-4 justify-center px-8 py-6 sm:px-20">
 				{lazyAutocomplete.map((ckey) => (
 					<Link key={ckey} href={`/players/${ckey}`} prefetch={false}>
-						<div className="bg-white bg-opacity-5 hover:bg-opacity-10 transition-colors border border-white border-opacity-10 px-3 py-2 rounded-[.25rem]">
-							{ckey}
-						</div>
+						<Button>{ckey}</Button>
 					</Link>
 				))}
 			</div>
+			{!!error && <div className="text-red-500 mb-6">An error has occurred: {error.message}</div>}
 		</div>
 	);
 }

@@ -5,12 +5,12 @@ import { useEffect, useRef } from 'react';
 import useServer from '@/hooks/useServer';
 import type { ServerStatus } from '@/services/server';
 
-export function ServerList({ fallback }: { fallback: ServerStatus[] }) {
-	const { error, servers } = useServer(fallback);
+export function ServerList({ fallback }: { fallback?: ServerStatus[] }) {
+	const { servers, error } = useServer(fallback);
 
 	return (
 		<>
-			{servers.map((status) => (
+			{servers?.map((status) => (
 				<Server key={status.connection_info} status={status} />
 			))}
 			{!!error && <div className="text-red-500">An error has occurred: {error.message}</div>}

@@ -13,9 +13,15 @@ export type ServerStatus = {
 const SERVER_ENDPOINT = process.env.API_URL + '/server';
 
 export async function getServer(): Promise<ServerStatus[]> {
-	const server = await fetch(SERVER_ENDPOINT, {
-		next: { revalidate: 30 },
-	}).then((res) => res.json());
+	try {
+		const server = await fetch(SERVER_ENDPOINT);
 
-	return server;
+		if (!server.ok) {
+			throw new Error('Internal API Error');
+		}
+
+		return await server.json();
+	} catch {
+		throw new Error('Internal Server Error');
+	}
 }
