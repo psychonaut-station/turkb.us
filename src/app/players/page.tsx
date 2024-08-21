@@ -50,7 +50,7 @@ export default function Player() {
 	}, [inputRef]);
 
 	return (
-		<div className="flex-1 w-full flex flex-col items-center justify-start font-sans">
+		<div className="flex-1 w-full flex flex-col items-center justify-start">
 			<div className="bg-white bg-opacity-5 border border-white border-opacity-10 px-3 py-2 rounded-[.25rem] text-center flex items-center">
 				<input ref={inputRef} className="flex-1 h-full bg-transparent outline-none" placeholder="Oyuncu ara"></input>
 				<div className="w-5"><Icon icon={isLoading ? faSpinner : faSearch} spin={isLoading} className={`text-white align-middle ${isLoading && 'opacity-50'}`} /></div>

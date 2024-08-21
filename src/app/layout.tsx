@@ -27,7 +27,7 @@ export default function RootLayout({
 	return (
 		<html lang="tr">
 			<body className={`${geistSans.variable} ${geistMono.variable}`}>
-				<div className="w-screen h-screen flex flex-col overflow-x-hidden scrollbar-color scrollbar-thumb-gray scrollbar-track-transparent">
+				<div className="w-screen h-screen flex flex-col font-sans overflow-x-hidden scrollbar-color scrollbar-thumb-gray scrollbar-track-transparent">
 					<NavLinks />
 					{children}
 				</div>
