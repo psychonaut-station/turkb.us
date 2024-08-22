@@ -8,7 +8,7 @@ export type Player = {
 	first_seen_round: number;
 	last_seen_round: number;
 	byond_age: string;
-	characters: string[];
+	characters: [string, number][];
 } | null;
 
 const PLAYER_ENDPOINT = process.env.API_URL + '/player?ckey=';

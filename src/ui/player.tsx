@@ -46,7 +46,7 @@ export default function PlayerView({ player }: { player?: Player }) {
 						<div className="flex flex-col items-center gap-3">
 							<span className="text-center text-3xl font-bold">Karakterler</span>
 							<div className="flex flex-wrap gap-4 justify-center px-8 py-6 sm:px-20 md:px-24 xl:px-60">
-								{player.characters.length ? player.characters.map((character) => (
+								{player.characters.length ? player.characters.map(([character]) => (
 									<Button key={character}>{character}</Button>
 								)) : (
 									<span>Hiçbir karakter bulunamadı.</span>
